@@ -1,0 +1,137 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+  Doctors List
+{% endblock title %}
+{% block body %}
+{% include "siteAdmin/nav.html" %}
+
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">All Doctors</span>
+            <h1 class="text-capitalize mb-5 text-lg">Registered doctors</h1>
+
+            <ul class="list-inline breadcumb-nav">
+              <li class="list-inline-item"><a href="{% url 'adminHome' %}" class="text-white">Home</a></li>
+              <li class="list-inline-item"><span class="text-white">/</span></li>
+              <li class="list-inline-item"><a href="#" class="text-white-50">All Doctors</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <!-- portfolio -->
+  <section class="section doctors">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="section-title">
+                    <h2>Doctors</h2>
+                    <div class="divider mx-auto my-4"></div>
+                    <p>We provide a wide range of medical expertise for sleep disorders.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Filter Buttons -->
+        <div class="col-12 text-center mb-4">
+            <div class="btn-group btn-group-toggle">
+                <button class="btn btn-primary filter-btn active" data-filter="all">All Departments</button>
+                <button class="btn btn-primary filter-btn" data-filter="Psychiatrist">Psychiatrist</button>
+                <button class="btn btn-primary filter-btn" data-filter="Primary Care Physician">Primary Care Physician</button>
+                <button class="btn btn-primary filter-btn" data-filter="Sleep Specialist">Sleep Specialist</button>
+                <button class="btn btn-primary filter-btn" data-filter="Neurologist">Neurologist</button>
+            </div>
+            <button class="btn btn-warning">
+                <a href="{% url 'adminDoctorReqList' %}" class="text-dark">Requests ({{ request_count }})</a>
+            </button>
+        </div>
+
+        <!-- Doctors Table -->
+        <div class="table-responsive">
+            <table class="table text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Sl</th>
+                        <th>Profile</th>
+                        <th>Name</th>
+                        <th>Specialization</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="doctor-table">
+                    {% for doctor in doctors %}
+                    <tr class="doctor-row" data-specialization="{{ doctor.specialization }}">
+                        <td>
+                            {{forloop.counter}}
+                        </td>
+                        <td>
+                            <img src="{{ doctor.profile_picture.url }}" alt="doctor-image" class="img-fluid" width="50">
+                        </td>
+                        <td>{{ doctor.fname }} {{ doctor.lname }}</td>
+                        <td>{{ doctor.specialization }}</td>
+                        <td>
+                            <a href="{% url 'adminDoctorInfo' doctor.id %}" class="btn btn-info btn-sm">View</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">No doctors found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const doctorRows = document.querySelectorAll(".doctor-row");
+    
+        filterButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                let filterValue = this.getAttribute("data-filter");
+    
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove("active"));
+                this.classList.add("active");
+    
+                // Show/hide doctors based on selected filter
+                doctorRows.forEach(row => {
+                    let specialization = row.getAttribute("data-specialization");
+    
+                    if (filterValue === "all" || specialization === filterValue) {
+                        row.style.display = "table-row";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+        });
+    });
+    
+</script>
+  <!-- /portfolio -->
+  
+{% endblock body %}
+
+{% block style %}
+.table-responsive {
+    overflow-x: auto;
+}
+
+.filter-btn {
+    cursor: pointer;
+    margin: 5px;
+}
+
+{% endblock style %}

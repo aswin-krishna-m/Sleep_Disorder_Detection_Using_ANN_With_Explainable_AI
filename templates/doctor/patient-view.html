@@ -1,0 +1,59 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+  Patient Info
+{% endblock title %}
+{% block body %}
+{% include "doctor/nav.html" %}
+
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">Patient Details</span>
+            <h1 class="text-capitalize mb-5 text-lg">{{patient.fname}} {{patient.lname}}</h1>
+  
+            <ul class="list-inline breadcumb-nav">
+                <li class="list-inline-item"><a href="{% url 'doctorHome' %}" class="text-white">Home</a></li>
+                <li class="list-inline-item"><span class="text-white">/</span></li>
+                <li class="list-inline-item"><a href="{% url 'doctorPatientList' %}" class="text-white-50">All Patients</a></li>
+                <li class="list-inline-item"><span class="text-white">/</span></li>
+                <li class="list-inline-item"><a href="#" class="text-white-50">Patient Details</a></li>
+              </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section patient-single">
+    <div class="container">
+        <div class="row">
+            <!-- Patient Bio -->
+            <div class="col-lg-8 col-md-6">
+                <div class="patient-details mt-4 mt-lg-0">
+                    <h2 class="text-md">Profile</h2>
+                    <div class="divider my-4"></div>
+
+                    <h4 class="mb-0">{{ consultation.patient.fname }} {{ consultation.patient.lname }}</h4>
+                    <p><strong>Date of Birth:</strong> {{ consultation.patient.dob }}</p>
+                    <p><strong>Gender:</strong> {{ consultation.patient.gender }}</p>
+                    <p><strong>Email:</strong> {{ consultation.patient.email }}</p>
+                    <p><strong>Phone:</strong> {{ consultation.patient.phone|default:"Not Provided" }}</p>
+                    <p><strong>Consultation began On:</strong> {{ consultation.started_on }}</p>
+                </div>
+
+                <!-- Diagnose Button -->
+                <div class="mt-4">
+                  <a href="{% url 'diagnose' consultation.patient.id %}" class="btn btn-primary">Diagnose</a>
+                  <a href="{% url 'diagnosisHistory' consultation.patient.id %}" class="btn btn-primary">History</a>
+              </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+  
+{% endblock body %}

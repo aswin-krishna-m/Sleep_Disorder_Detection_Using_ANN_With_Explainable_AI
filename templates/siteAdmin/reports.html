@@ -1,0 +1,131 @@
+
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}
+  Admin Report
+{% endblock title %}
+
+{% block body %}
+{% include "siteAdmin/nav.html" %}
+<section class="bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <h1 class="text-capitalize mb-5 text-lg text-white">Reports</h1>
+            <ul class="list-inline breadcumb-nav">
+              <li class="list-inline-item"><a href="{% url 'adminHome' %}" class="text-white">Home</a></li>
+              <li class="list-inline-item"><span class="text-white">/</span></li>
+              <li class="list-inline-item"><a href="#" class="text-white-50">Admin Report</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Admin Dashboard - Reports</h2>
+
+    <div class="row">
+        <!-- Total Registered Patients -->
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Total Patients</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ total_patients }}</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Registered Doctors -->
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Total Doctors</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ total_doctors }}</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Predictions Made -->
+        <div class="col-md-4">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Total Predictions</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ total_predictions }}</h4>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="row">
+        <!-- Completed Appointments -->
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Completed Appointments</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ completed_appointments }}</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Diagnoses Made -->
+        <div class="col-md-4">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Total Diagnoses</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ total_diagnoses }}</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Prescriptions -->
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Total Prescriptions</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ total_prescriptions }}</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Diagnoses -->
+        <div class="col-md-12">
+            <div class="card mt-3">
+                <div class="card-header">Recent Diagnoses</div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Doctor</th>
+                                <th>Disorder</th>
+                                <th>Confidence</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for diagnosis in recent_diagnoses %}
+                            <tr>
+                                <td>{{ diagnosis.consulting.patient.fname }} {{ diagnosis.consulting.patient.lname }}</td>
+                                <td>{{ diagnosis.consulting.doctor.fname }} {{ diagnosis.consulting.doctor.lname }}</td>
+                                <td>{{ diagnosis.sleep_disorder }}</td>
+                                <td>{{ diagnosis.confidence_score|floatformat:2 }}%</td>
+                                <td>{{ diagnosis.diagnosis_date }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No recent diagnoses found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

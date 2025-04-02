@@ -1,0 +1,81 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block title %}
+  Diagnosis Details
+{% endblock title %}
+
+{% block body %}
+{% include "doctor/nav.html" %}
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block text-center">
+                    <span class="text-white">Diagnosis Details</span>
+                    <ul class="list-inline breadcumb-nav">
+                        <li class="list-inline-item"><a href="{% url 'doctorHome' %}" class="text-white">Home</a></li>
+                        <li class="list-inline-item"><span class="text-white">/</span></li>
+                        <li class="list-inline-item"><a href="{% url 'diagnosisHistory' diagnosis.consulting.patient.id %}" class="text-white-50">History</a></li>
+                        <li class="list-inline-item"><span class="text-white">/</span></li>
+                        <li class="list-inline-item"><a href="#" class="text-white-50">Diagnosis Details</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section diagnosis-single">
+    <div class="container">
+        <div class="row">
+            <!-- Diagnosis Information -->
+            <div class="col-lg-8 col-md-6">
+                <div class="diagnosis-details mt-4 mt-lg-0">
+                    <h2 class="text-md">Diagnosis Information</h2>
+                    <div class="divider my-4"></div>
+
+                    <p><strong>Diagnosis Date:</strong> {{ diagnosis.diagnosis_date }}</p>
+                    <p><strong>Detected Sleep Disorder:</strong> {{ diagnosis.sleep_disorder }}</p>
+                    <p><strong>Model Confidence Score:</strong> {{ diagnosis.confidence_score|default:"N/A" }}</p>
+                    <p><strong>Doctor's Notes:</strong> {{ diagnosis.notes|default:"No additional notes" }}</p>
+                </div>
+
+                <!-- Prescription Section -->
+                <div class="mt-4">
+                    <h3 class="text-md">Prescriptions</h3>
+                    <div class="divider my-4"></div>
+
+                    {% if diagnosis.prescriptions.all %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Medication</th>
+                                    <th>Dosage</th>
+                                    <th>Frequency</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for prescription in diagnosis.prescriptions.all %}
+                                    <tr>
+                                        <td>{{ prescription.medication_name }}</td>
+                                        <td>{{ prescription.dosage }}</td>
+                                        <td>{{ prescription.frequency }}</td>
+                                        <td>{{ prescription.duration|default:"N/A" }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No prescriptions available for this diagnosis.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock body %}

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+{% block style %}
+  h1{
+    color:red;
+  }
+{% endblock style %}
+
+{% block body %}
+  
+{% include "header.html" %}
+
+<!-- Slider Start -->
+<section class="banner">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-md-12 col-xl-7">
+				<div class="block">
+					<div class="divider mb-3"></div>
+					<span class="text-uppercase text-sm letter-spacing ">Sleep Health care solution</span>
+					<h1 class="mb-3 mt-3">Your most trusted health partner</h1>
+					
+					<p class="mb-4 pr-5">Our AI-powered sleep health solution helps detect potential sleep disorders by analyzing vital health metrics. 
+						Stay ahead of sleep-related issues with accurate predictions and expert recommendations for better sleep and well-being.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="cta-section ">
+	<div class="container">
+		<div class="cta position-relative">
+			<div class="row">
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="counter-stat">
+						<i class="icofont-doctor"></i>
+						<span class="h3">{{total_patients}}</span>
+						<p>Happy People</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="counter-stat">
+						<i class="icofont-flag"></i>
+						<span class="h3">{{total_predictions}}</span>+
+						<p>Predictions made</p>
+					</div>
+				</div>
+				
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="counter-stat">
+						<i class="icofont-badge"></i>
+						<span class="h3">{{total_doctors}}</span>+
+						<p>Expert Doctors</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="counter-stat">
+						<i class="icofont-globe"></i>
+						<span class="h3">{{current_version}}</span>
+						<p>Current Version</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="section service gray-bg">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-7 text-center">
+				<div class="section-title">
+					<h2>Our Features</h2>
+					<div class="divider mx-auto my-4"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-clock-time text-lg"></i>
+						<h4 class="mt-3 mb-3">24x7 services</h4>
+					</div>
+					<div class="content">
+						<p class="mb-4">We offer round-the-clock healthcare services, ensuring assistance is available anytime you need it.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-robot text-lg"></i>
+						<h4 class="mt-3 mb-3">AI Based</h4>
+					</div>
+					<div class="content">
+						<p class="mb-4">Our AI-driven system enhances diagnostic accuracy and optimizes treatment recommendations.</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-chart-bar-graph text-lg"></i>
+						<h4 class="mt-3 mb-3">XAI integrated</h4>
+					</div>
+					<div class="content">
+						<p class="mb-4">Explainable AI (XAI) ensures transparency in AI-driven decisions, helping doctors and patients understand the results.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-doctor text-lg"></i>
+						<h4 class="mt-3 mb-3">Expert suggestions</h4>
+					</div>
+					<div class="content">
+						<p class="mb-4">Our system provides AI-powered insights combined with expert medical advice for better patient care.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-brain text-lg"></i>
+						<h4 class="mt-3 mb-3">AI Decision Support</h4>
+					</div>
+					<div class="content">
+						<p class="mb-4">Our AI decision support system helps doctors make data-driven decisions with enhanced accuracy.</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-network text-lg"></i>
+						<h4 class="mt-3 mb-3">Neural Network</h4>
+					</div>
+					<div class="content">
+						<p class="mb-4">Our deep learning-based neural network model ensures precise and efficient sleep disorder detection.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+{% include "footer.html" %}
+{% endblock body %}

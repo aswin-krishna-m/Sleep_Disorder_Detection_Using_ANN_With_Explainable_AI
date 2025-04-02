@@ -1,0 +1,112 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+  Edit Doctor Info
+{% endblock title %}
+{% block body %}
+{% include "siteAdmin/nav.html" %}
+
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">Doctor Details</span>
+            <h1 class="text-capitalize mb-5 text-lg">{{doctor.fname}} {{doctor.lname}}</h1>
+  
+            <ul class="list-inline breadcumb-nav">
+                <li class="list-inline-item"><a href="{% url 'adminHome' %}" class="text-white">Home</a></li>
+                <li class="list-inline-item"><span class="text-white">/</span></li>
+                <li class="list-inline-item"><a href="{% url 'adminDoctorList' %}" class="text-white-50">All Doctors</a></li>
+                <li class="list-inline-item"><span class="text-white">/</span></li>
+                <li class="list-inline-item"><a href="{% if request.GET.next == 'adminDoctorReqInfo' %}{% url 'adminDoctorReqInfo' doctor.id %}{% else %}{% url 'adminDoctorInfo' doctor.id %}{% endif %}" class="text-white-50">Doctor Details</a></li>
+                <li class="list-inline-item"><span class="text-white">/</span></li>
+                <li class="list-inline-item"><a href="#" class="text-white-50">Edit Doctor Details</a></li>
+              </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section doctor-single">
+    <div class="container">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <!-- Left Column -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label>First Name</label>
+                            <input type="text" name="fname" class="form-control" value="{{ doctor.fname }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Last Name</label>
+                            <input type="text" name="lname" class="form-control" value="{{ doctor.lname }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" value="{{ doctor.email }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Phone</label>
+                            <input type="text" name="phone" class="form-control" value="{{ doctor.phone }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Gender</label>
+                            <select name="gender" class="form-control">
+                                <option value="Male" {% if doctor.gender == "Male" %}selected{% endif %}>Male</option>
+                                <option value="Female" {% if doctor.gender == "Female" %}selected{% endif %}>Female</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>License Number</label>
+                            <input type="text" name="license" class="form-control" value="{{ doctor.license }}" required>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label>Specialization</label>
+                            <select name="specialization" class="form-control">
+                                <option value="Neurologist" {% if doctor.specialization == "Neurologist" %}selected{% endif %}>Neurologist</option>
+                                <option value="Psychiatrist" {% if doctor.specialization == "Psychiatrist" %}selected{% endif %}>Psychiatrist</option>
+                                <option value="Primary Care Physician" {% if doctor.specialization == "Primary Care Physician" %}selected{% endif %}>Primary Care Physician</option>
+                                <option value="Sleep Specialist" {% if doctor.specialization == "Sleep Specialist" %}selected{% endif %}>Sleep Specialist</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Bio</label>
+                            <textarea name="bio" class="form-control" rows="5">{{ doctor.bio }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Profile Picture</label>
+                            <input type="file" name="profile" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit & Cancel Buttons -->
+                <div class="row mt-3">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-success">Update Doctor</button>
+                        <a href="{% if request.GET.next == 'adminDoctorReqInfo' %}{% url 'adminDoctorReqInfo' doctor.id %}{% else %}{% url 'adminDoctorInfo' doctor.id %}{% endif %}"  class="btn btn-secondary">Cancel</a>
+                    </div>
+                </div>
+                
+            </form>
+    </div>
+</section>
+
+  
+{% endblock body %}

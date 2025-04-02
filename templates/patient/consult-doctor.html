@@ -1,0 +1,92 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+  Consulting Doctors List
+{% endblock title %}
+{% block body %}
+{% include "patient/nav.html" %}
+
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <h1 class="text-capitalize mb-5 text-lg">Consulting doctors</h1>
+  
+            <ul class="list-inline breadcumb-nav">
+              <li class="list-inline-item"><a href="{% url 'patientHome' %}" class="text-white">Home</a></li>
+              <li class="list-inline-item"><span class="text-white">/</span></li>
+              <li class="list-inline-item"><a href="#" class="text-white-50">Consulting Doctors</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <!-- portfolio -->
+
+<section class="section doctors">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="section-title">
+                    <p>We provide a wide range of medical expertise for sleep disorders.</p>
+                    <div class="divider mx-auto my-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="col-12 text-center mb-5">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn active">
+                    <input type="radio" name="shuffle-filter" value="all" checked="checked" /> All Departments
+                </label>
+                <label class="btn">
+                    <input type="radio" name="shuffle-filter" value="Psychiatrist" /> Psychiatrist
+                </label>
+                <label class="btn">
+                    <input type="radio" name="shuffle-filter" value="Primary Care Physician" /> Primary Care Physician
+                </label>
+                <label class="btn">
+                    <input type="radio" name="shuffle-filter" value="Sleep Specialist" /> Sleep Specialist
+                </label>
+                <label class="btn">
+                    <input type="radio" name="shuffle-filter" value="Neurologist" /> Neurologist
+                </label>
+            </div>
+        </div>
+
+        <!-- Doctors List -->
+        <div class="row shuffle-wrapper portfolio-gallery">
+            {% for consult in consulting %}
+                
+            <div class="col-lg-3 col-sm-6 col-md-6 mb-4 shuffle-item" data-groups="[&quot;{{ consult.doctor.specialization }}&quot;]">
+                    <div class="position-relative doctor-inner-box">
+                        <div class="doctor-profile">
+                            <div class="doctor-img">
+                                <img src="{{ consult.doctor.profile_picture.url }}" alt="doctor-image" class="img-fluid w-100">
+                            </div>
+                        </div>
+                        <div class="content mt-3">
+                            <h4 class="mb-0">
+                                <a href="{% url 'doctorInfo' consult.doctor.id %}">{{ consult.doctor.fname }} {{ consult.doctor.lname }}</a>
+                            </h4>
+                            <p>{{ consult.doctor.specialization }}</p>
+                        </div> 
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-center">No doctors found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+  <!-- /portfolio -->
+
+{% endblock body %}

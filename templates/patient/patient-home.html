@@ -1,0 +1,73 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+  Patient Home
+{% endblock title %}
+{% block body %}
+{% include "patient/nav.html" %}
+<section class="banner3">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-md-12 col-xl-7">
+				<div class="block">
+					<div class="divider mb-3"></div>
+					<span class="text-uppercase text-sm letter-spacing">Sleep Health Care Solution</span>
+					<h1 class="mb-3 mt-3">Welcome {{ptnt.fname}}</h1>
+
+					<div class="options">
+						<a href="{% url 'doctorList' %}" class="btn-option">All Doctors</a>
+						<a href="{% url 'patientAppointments' %}" class="btn-option">Appointments</a>
+						<a href="{% url 'consultingList' %}" class="btn-option">Consulting Doctors</a>
+						<a href="{% url 'patientProfile' %}" class="btn-option">View Profile</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock body %}
+
+
+{% block style %}
+.options {
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.btn-option {
+	display: inline-block;
+	padding: 12px 24px;
+	border-radius: 50px;
+	background-color: #007bff;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: bold;
+	opacity: 0;
+	transform: translateY(20px);
+	animation: fadeInUp 0.8s ease forwards;
+}
+
+.btn-option:nth-child(2) { animation-delay: 0.2s; }
+.btn-option:nth-child(3) { animation-delay: 0.4s; }
+.btn-option:nth-child(4) { animation-delay: 0.6s; }
+
+.btn-option:hover {
+	background-color: #0056b3;
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+{% endblock style %}

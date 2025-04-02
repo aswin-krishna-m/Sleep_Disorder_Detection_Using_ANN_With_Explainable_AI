@@ -1,0 +1,89 @@
+
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}
+  Doctor Report
+{% endblock title %}
+
+{% block body %}
+{% include "doctor/nav.html" %}
+<section class="bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <h1 class="text-capitalize mb-5 text-lg text-white">Reports</h1>
+            <ul class="list-inline breadcumb-nav">
+              <li class="list-inline-item"><a href="{% url 'doctorHome' %}" class="text-white">Home</a></li>
+              <li class="list-inline-item"><span class="text-white">/</span></li>
+              <li class="list-inline-item"><a href="#" class="text-white-50">My Report</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+<div class="container mt-4">
+    <h2 class="mb-4">Doctor's Report - Dr. {{ doctor.fname }} {{ doctor.lname }}</h2>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Consulted Patients</h5>
+                    <p class="card-text display-4">{{ total_patients }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Completed Appointments</h5>
+                    <p class="card-text display-4">{{ total_appointments }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Diagnoses Made</h5>
+                    <p class="card-text display-4">{{ total_diagnoses }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mt-4">Recent Diagnoses</h3>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Date</th>
+                <th>Sleep Disorder</th>
+                <th>Confidence Score</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for diagnosis in diagnoses %}
+            <tr>
+                <td>{{ diagnosis.consulting.patient.fname }} {{ diagnosis.consulting.patient.lname }}</td>
+                <td>{{ diagnosis.diagnosis_date }}</td>
+                <td>{{ diagnosis.sleep_disorder }}</td>
+                <td>{{ diagnosis.confidence_score|floatformat:2 }}%</td>
+                <td>{{ diagnosis.notes|default:"No Notes" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No Diagnoses Yet</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock body %}

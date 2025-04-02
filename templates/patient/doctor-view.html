@@ -1,0 +1,66 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+  Doctor Info
+{% endblock title %}
+{% block body %}
+{% include "patient/nav.html" %}
+
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">Doctor Details</span>
+            <h1 class="text-capitalize mb-5 text-lg">{{doctor.fname}} {{doctor.lname}}</h1>
+  
+            <ul class="list-inline breadcumb-nav">
+                <li class="list-inline-item"><a href="{% url 'patientHome' %}" class="text-white">Home</a></li>
+                <li class="list-inline-item"><span class="text-white">/</span></li>
+                <li class="list-inline-item"><a href="{% url 'doctorList' %}" class="text-white-50">All Doctors</a></li>
+                <li class="list-inline-item"><span class="text-white">/</span></li>
+                <li class="list-inline-item"><a href="#" class="text-white-50">Doctor Details</a></li>
+              </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section doctor-single">
+    <div class="container">
+        <div class="row">
+            <!-- Doctor Image and Social Links -->
+            <div class="col-lg-4 col-md-6">
+                <div class="doctor-img-block">
+                    <img src="{{ doctor.profile_picture.url }}" alt="{{ doctor.fname }} {{ doctor.lname }}" class="img-fluid w-100">
+                    
+                    <div class="info-block mt-4">
+                        <h4 class="mb-0">{{ doctor.fname }} {{ doctor.lname }}</h4>
+                        <p>{{ doctor.specialization }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctor Bio -->
+            <div class="col-lg-8 col-md-6">
+                <div class="doctor-details mt-4 mt-lg-0">
+                    <h2 class="text-md">About the Doctor</h2>
+                    <div class="divider my-4"></div>
+                    <p>{{ doctor.bio }}</p>
+
+                    <a href="{% url 'bookAppointment' doctor.id %}" class="btn btn-main-2 btn-round-full mt-3">
+                        Make an Appointment <i class="icofont-simple-right ml-2"></i>
+                    </a>
+                    <a href="{% url 'patientDiagnosisHistory' doctor.id %}" class="btn btn-main-2 btn-round-full mt-3">
+                        Diagnosis History <i class="icofont-simple-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+  
+{% endblock body %}

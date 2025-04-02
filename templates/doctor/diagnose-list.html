@@ -1,0 +1,64 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+  Diagnosis History
+{% endblock title %}
+
+{% block body %}
+{% include "doctor/nav.html" %}
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <h1 class="text-capitalize mb-5 text-lg">Diagnosis History</h1>
+            <ul class="list-inline breadcumb-nav">
+              <li class="list-inline-item"><a href="{% url 'doctorHome' %}" class="text-white">Home</a></li>
+              <li class="list-inline-item"><span class="text-white">/</span></li>
+              <li class="list-inline-item"><a href=" {% url 'doctorPatientInfo' patient.id %}" class="text-white-50">Patient Info</a></li>
+              <li class="list-inline-item"><span class="text-white">/</span></li>
+              <li class="list-inline-item"><a href="#" class="text-white-50">Diagnosis History</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<!-- Diagnosis List -->
+<section class="section diagnosis-history">
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Sleep Disorder</th>
+                        <th>Confidence Score</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for diagnosis in diagnoses %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ diagnosis.diagnosis_date }}</td>
+                        <td>{{ diagnosis.sleep_disorder }}</td>
+                        <td>{{ diagnosis.confidence_score }}%</td>
+                        <td>
+                            <a href="{% url 'diagnosisDetail' diagnosis.id %}" class="btn btn-info btn-sm">View</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No diagnosis records found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock body %}

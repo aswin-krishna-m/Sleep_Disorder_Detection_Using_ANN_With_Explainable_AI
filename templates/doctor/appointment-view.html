@@ -1,0 +1,75 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+ Appointment Info
+{% endblock title %}
+{% block body %}
+{% include "doctor/nav.html" %}
+
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">Appointment Details</span>
+            <h1 class="text-capitalize mb-5 text-lg">{{patient.fname}} {{patient.lname}}</h1>
+  
+            <ul class="list-inline breadcumb-nav">
+                <li class="list-inline-item"><a href="{% url 'doctorHome' %}" class="text-white">Home</a></li>
+                <li class="list-inline-item"><span class="text-white">/</span></li>
+                <li class="list-inline-item"><a href="{% url 'doctorAppointments' %}" class="text-white-50">All Appointments</a></li>
+                <li class="list-inline-item"><span class="text-white">/</span></li>
+                <li class="list-inline-item"><a href="#" class="text-white-50">Appointment Details</a></li>
+              </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section patient-single">
+    <div class="container">
+        <div class="row">
+
+            <!-- Patient Appointment Details -->
+            <div class="col-lg-8 col-md-6">
+                <div class="patient-details mt-4 mt-lg-0">
+                    <h2 class="text-md">Appointment Details</h2>
+                    <div class="divider my-4"></div>
+
+                    <h4 class="mb-0">{{ appointment.patient.fname }} {{ appointment.patient.lname }}</h4>
+                    <p><strong>Phone:</strong> {{ appointment.phone|default:"Not Provided" }}</p>
+                    <div class="divider my-4"></div>
+                    
+                    <p><strong>Appointment Date:</strong> {{ appointment.date }}</p>
+                    <p><strong>Time:</strong> {{ appointment.time }}</p>
+                    <p><strong>Status:</strong> {{ appointment.status }}</p>
+                    <p><strong>Message:</strong> {{ appointment.message|default:"No additional message" }}</p>
+                    {% if appointment.status == "Confirmed" %}
+                    <div class="mt-4">
+                      <a href="{% url 'doctorPatientInfo' appointment.patient.id %}" class="btn btn-success">Go to Profile</a>
+                  </div>
+                    {% endif %}
+                    <div class="divider my-4"></div>
+                    <!-- Status Update Form -->
+                    <form method="POST">
+                        {% csrf_token %}
+                        <label for="status"><strong>Update Status:</strong></label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="Pending" {% if appointment.status == "Pending" %}selected{% endif %}>Pending</option>
+                            <option value="Confirmed" {% if appointment.status == "Confirmed" %}selected{% endif %}>Confirmed</option>
+                            <option value="Completed" {% if appointment.status == "Completed" %}selected{% endif %}>Completed</option>
+                            <option value="Cancelled" {% if appointment.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary mt-3">Update Status</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+  
+{% endblock body %}

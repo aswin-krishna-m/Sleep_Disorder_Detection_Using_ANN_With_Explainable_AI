@@ -1,0 +1,91 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}Admin Home{% endblock title %}
+
+{% block body %}
+{% include "siteAdmin/nav.html" %}
+
+<section class="banner">
+  <div class="container">
+    <div class="row ">
+      <div class="col-lg-6 col-md-12 col-xl-7">
+        <div class="block">
+          <div class="divider mb-3"></div>
+          <span class="text-uppercase text-sm letter-spacing">Sleep Health Care Solution</span>
+          <h1 class="mb-3 mt-3">Welcome Admin</h1>
+				<div class="row">
+          <div class="admin-options">
+            <a href="{% url 'adminPatientList' %}" class="btn btn-primary fade-in">Manage Patients</a>
+            <a href="{% url 'logList' %}" class="btn btn-secondary fade-in">Track Logs</a>
+            <!-- <a href="#" class="btn btn-primary fade-in">Track Patient History</a> -->
+          </div>
+          <div class="admin-options">
+            <a href="{% url 'adminDoctorList' %}" class="btn btn-primary fade-in">Manage Doctors</a>
+            <a href="{% url 'adminReports' %}" class="btn btn-secondary fade-in">Generate Reports</a>
+						<!-- <a href="#" class="btn btn-primary fade-in">View XAI Results</a> -->
+					</div>
+          <div class="admin-options">
+            <a href="{% url 'analyze' %} " class="btn btn-info fade-in">Analyze Model Predictions</a>
+          </div>
+          		</div>
+		  </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock body %}
+
+
+{% block style %}
+  .admin-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    margin-right: 10px;
+  }
+
+  .btn {
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+  }
+
+  .btn:hover {
+    opacity: 0.8;
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+{% endblock style %}

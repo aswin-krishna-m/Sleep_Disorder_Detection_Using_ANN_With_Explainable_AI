@@ -1,0 +1,62 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+  Doctor Home
+{% endblock title %}
+{% block body %}
+{% include "doctor/nav.html" %}
+	<section class="banner2">
+		<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-md-12 col-xl-7">
+				<div class="block">
+					<div class="divider mb-3"></div>
+					<span class="text-uppercase text-sm letter-spacing">Sleep Health Care Solution</span>
+					<h1 class="mb-3 mt-3 text-light" style="-webkit-text-stroke: .5px black;">Welcome {{doctor.fname}}</h1>
+					<div class="fade-in">
+						<a href="{% url 'doctorPatientList' %}" class="option-btn">My Patients</a>
+						<a href="{% url 'doctorAppointments' %}" class="option-btn">Appointments</a><br>
+						<a href="{% url 'doctorProfile' %}" class="option-btn">Profile</a>
+						<a href="{% url 'doctorReports' %}" class="option-btn">Track Report</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock body %}
+		{% block style %}
+		  
+		.fade-in {
+			opacity: 0;
+			transform: translateY(20px);
+			animation: fadeIn 1s ease-out forwards;
+		}
+		
+		@keyframes fadeIn {
+			from {
+			  opacity: 0;
+			  transform: translateY(20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+		.option-btn {
+			display: inline-block;
+			padding: 12px 20px;
+			margin: 10px;
+			border: 2px solid #007bff;
+			border-radius: 30px;
+			text-decoration: none;
+			color: #007bff;
+			font-weight: bold;
+			transition: all 0.3s ease-in-out;
+		}
+		  .option-btn:hover {
+			  background-color: #007bff;
+			  color: white;
+			}
+		{% endblock style %}

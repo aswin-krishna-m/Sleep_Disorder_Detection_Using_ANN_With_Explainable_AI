@@ -1,0 +1,124 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block title %}
+  System Logs
+{% endblock title %}
+
+{% block body %}
+{% include "siteAdmin/nav.html" %}
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">Admin Dashboard</span>
+            <h1 class="text-capitalize mb-5 text-lg">System Logs</h1>
+
+            <ul class="list-inline breadcumb-nav">
+              <li class="list-inline-item"><a href="{% url 'adminHome' %}" class="text-white">Home</a></li>
+              <li class="list-inline-item"><span class="text-white">/</span></li>
+              <li class="list-inline-item"><a href="#" class="text-white-50">Logs</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+  
+<!-- Logs Section -->
+<section class="section logs">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="section-title">
+                    <h2>System Logs</h2>
+                    <div class="divider mx-auto my-4"></div>
+                    <p>View recent actions performed in the system.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Filter Buttons -->
+        <div class="col-12 text-center mb-4">
+            <div class="btn-group btn-group-toggle">
+                <button class="btn btn-primary filter-btn active" data-filter="all">All Actions</button>
+                <button class="btn btn-primary filter-btn" data-filter="Registration">Registration</button>
+                <button class="btn btn-primary filter-btn" data-filter="Appointment">Appointment</button>
+                <button class="btn btn-primary filter-btn" data-filter="Diagnosis">Diagnosis</button>
+                <button class="btn btn-primary filter-btn" data-filter="Prediction">Prediction</button>
+            </div>
+        </div>
+
+        <!-- Logs Table -->
+        <div class="table-responsive">
+            <table class="table text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Action</th>
+                        <th>User Type</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="logs-table">
+                    {% for log in logs %}
+                    <tr class="log-row" data-action="{{ log.action }}">
+                        <td>{{ log.timestamp }}</td>
+                        <td>{{ log.action }}</td>
+                        <td>{{ log.user_type }}</td>
+                        <td>{{ log.details }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">No logs found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const logRows = document.querySelectorAll(".log-row");
+    
+        filterButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                let filterValue = this.getAttribute("data-filter");
+    
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove("active"));
+                this.classList.add("active");
+    
+                // Show/hide logs based on selected filter
+                logRows.forEach(row => {
+                    let action = row.getAttribute("data-action");
+    
+                    if (filterValue === "all" || action === filterValue) {
+                        row.style.display = "table-row";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+{% endblock body %}
+
+{% block style %}
+.table-responsive {
+    overflow-x: auto;
+}
+
+.filter-btn {
+    cursor: pointer;
+    margin: 5px;
+}
+{% endblock style %}

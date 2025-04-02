@@ -1,0 +1,89 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+  Diagnosis - Self
+{% endblock title %}
+{% block body %}
+{% include "patient/nav.html" %}
+
+
+<div class="block text-center">
+    <h1 class="text-capitalize mb-5 text-lg">My Appointments</h1>
+
+    <ul class="list-inline breadcumb-nav">
+        <li class="list-inline-item"><a href="{% url 'patientHome' %}" class="text-white">Home</a></li>
+        <li class="list-inline-item"><span class="text-white">/</span></li>
+        <li class="list-inline-item"><a href="{% url 'patientAppointments' %}'" class="text-white-50">My Appointments</a></li>
+      </ul>
+  </div>
+  
+
+<!-- Appointment Status Filter -->
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center mb-4">
+            <form method="GET" action="{% url 'patientAppointments' %}">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn {% if status_filter == 'All' %}active{% endif %}">
+                        <input type="radio" name="status" value="All" onchange="this.form.submit();" {% if status_filter == 'All' %}checked{% endif %}> 
+                        All ({{ all_count }})
+                    </label>
+                    <label class="btn {% if status_filter == 'Pending' %}active{% endif %}">
+                        <input type="radio" name="status" value="Pending" onchange="this.form.submit();" {% if status_filter == 'Pending' %}checked{% endif %}> 
+                        Pending ({{ pending_count }})
+                    </label>
+                    <label class="btn {% if status_filter == 'Confirmed' %}active{% endif %}">
+                        <input type="radio" name="status" value="Confirmed" onchange="this.form.submit();" {% if status_filter == 'Confirmed' %}checked{% endif %}> 
+                        Confirmed ({{ confirmed_count }})
+                    </label>
+                    <label class="btn {% if status_filter == 'Completed' %}active{% endif %}">
+                        <input type="radio" name="status" value="Completed" onchange="this.form.submit();" {% if status_filter == 'Completed' %}checked{% endif %}> 
+                        Completed ({{ completed_count }})
+                    </label>
+                    <label class="btn {% if status_filter == 'Cancelled' %}active{% endif %}">
+                        <input type="radio" name="status" value="Cancelled" onchange="this.form.submit();" {% if status_filter == 'Cancelled' %}checked{% endif %}> 
+                        Cancelled ({{ cancelled_count }})
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+  
+  <!-- Appointments Table -->
+  <section class="section patient">
+      <div class="container">
+          <div class="table-responsive">
+              <table class="table table-striped">
+                  <thead class="thead-dark">
+                      <tr>
+                          <th>#</th>
+                          <th>Doctor</th>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for appointment in appointments %}
+                      <tr>
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ appointment.doctor.fname }} {{ appointment.doctor.lname }}</td>
+                          <td>{{ appointment.date }}</td>
+                          <td>{{ appointment.status }}</td>
+                          <td><a {% if appointment.status not in "Pending,Confirmed" %}class="btn btn-secondary btn-sm" style="pointer-events: none;opacity: 0.6;cursor: not-allowed;" {% else %}  href="#" class="btn btn-danger text-light btn-sm"{% endif %}  >
+                            Cancel
+                          </a></td>
+                      </tr>
+                      {% empty %}
+                      <tr>
+                          <td colspan="5" class="text-center">No appointments found.</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </section>
+  
+{% endblock body %}

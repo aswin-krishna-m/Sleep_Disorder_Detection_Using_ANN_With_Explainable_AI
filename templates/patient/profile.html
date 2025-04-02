@@ -1,0 +1,57 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+  My Profile
+{% endblock title %}
+{% block body %}
+{% include "patient/nav.html" %}
+
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">Profile</span>
+            <h1 class="text-capitalize mb-5 text-lg">{{patient.fname}} {{patient.lname}}</h1>
+  
+            <ul class="list-inline breadcumb-nav">
+                <li class="list-inline-item"><a href="{% url 'patientHome' %}" class="text-white">Home</a></li>
+                <li class="list-inline-item"><span class="text-white">/</span></li>
+                <li class="list-inline-item"><a href="#" class="text-white-50">Profile</a></li>
+              </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section patient-single">
+    <div class="container">
+        <div class="row">
+            
+
+            <!-- patient Bio -->
+            <div class="col-lg-8 col-md-6">
+              <div class="patient-details mt-4 mt-lg-0">
+                  <h2 class="text-md">Profile</h2>
+                  <div class="divider my-4"></div>
+                  
+                  <h4 class="mb-0">{{ patient.fname }} {{ patient.lname }}</h4>
+                  <p><strong>Date of Birth:</strong> {{ patient.dob }}</p>
+                  <p><strong>Gender:</strong> {{ patient.gender }}</p>
+                  <p><strong>Email:</strong> {{ patient.email }}</p>
+                  <p><strong>Phone:</strong> {{ patient.phone|default:"Not Provided" }}</p>
+                  <p><strong>Account Created On:</strong> {{ patient.created_on }}</p>
+              </div>
+              
+              <a href="{% url 'patientProfileEdit' %}" class="btn btn-main-2 btn-round-full mt-3">
+                  Edit Info
+              </a>
+          </div>
+          
+        </div>
+    </div>
+</section>
+  
+{% endblock body %}
