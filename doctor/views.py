@@ -164,7 +164,7 @@ def saveDiagnosis(request,id):
     if request.method == "POST":
         consulting = Consulting.objects.get(patient=patient,doctor=doctor)
         sleep_disorder = request.POST.get("prediction")
-        confidence_score = float(request.POST.get("confidence_score"))
+        confidence_score = request.POST.get("confidence_score")
         notes = request.POST.get("notes")
         # Save diagnosis
         diagnosis = Diagnosis.objects.create(

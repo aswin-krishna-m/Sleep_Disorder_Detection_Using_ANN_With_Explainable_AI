@@ -68,7 +68,7 @@ class Diagnosis(models.Model):
     consulting = models.ForeignKey(Consulting, on_delete=models.CASCADE, related_name="diagnoses")
     diagnosis_date = models.DateField(auto_now_add=True)
     sleep_disorder = models.CharField(max_length=255)  
-    confidence_score = models.FloatField(null=True, blank=True)  
+    confidence_score = models.CharField(null=True, blank=True,max_length=15)  
     notes = models.TextField(null=True, blank=True) 
     def save(self, *args, **kwargs):
         if self.pk is None:  
@@ -87,7 +87,7 @@ class Prescription(models.Model):
     duration = models.CharField(max_length=100, null=True, blank=True)  
 
     def __str__(self):
-        return f"{self.medication_name} for {self.diagnosis.sleep_disorder} - {self.prescribed_on}"
+        return f"{self.medication_name} for {self.diagnosis.sleep_disorder}"
 
 class Prediction(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='predictions')
