@@ -44,7 +44,7 @@
                                     <label for="bmi_category">BMI Category:</label>
                                     <select name="bmi_category" id="bmi_category" class="form-control">
                                         <option selected disabled hidden value="">Select BMI Category</option>
-                                        <option value="Underweight">Underweight</option>
+                                        <!-- <option value="Underweight">Underweight</option> -->
                                         <option value="Normal">Normal</option>
                                         <option value="Overweight">Overweight</option>
                                         <option value="Obese">Obese</option>
@@ -89,7 +89,9 @@
                              (Confidence: {{ prediction.Confidence }})
                              <br>
                              Feature Importance: 
-                             
+                             <div>
+                                <img src="{% static 'graph.png'  %}" width="70%" alt="">
+                            </div>
                                 <ul>
                                     {% for i, j in prediction.FeatureImportance.items %}
                                     <li>

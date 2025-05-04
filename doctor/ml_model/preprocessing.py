@@ -12,11 +12,6 @@ def preprocess_data(data, scaler=None, label_encoders=None):
     if "Person ID" in df.columns:
         df.drop(columns=["Person ID"], inplace=True)
 
-    # Split "Blood Pressure" into Systolic and Diastolic
-    if "Blood Pressure" in df.columns:
-        df[['Systolic', 'Diastolic']] = df['Blood Pressure'].str.split('/', expand=True).astype(int)
-        df.drop(columns=['Blood Pressure'], inplace=True)
-
     # Categorical Encoding
     categorical_columns = ["Gender", "Occupation", "BMI Category", "Sleep Disorder"]
     

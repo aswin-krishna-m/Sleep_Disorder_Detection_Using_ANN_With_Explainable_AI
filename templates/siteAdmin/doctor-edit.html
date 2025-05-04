@@ -55,7 +55,7 @@
 
                         <div class="mb-3">
                             <label>Phone</label>
-                            <input type="text" name="phone" class="form-control" value="{{ doctor.phone }}">
+                            <input type="text" name="phone" pattern="\d*" inputmode="numeric" maxlength="10" class="form-control" value="{{ doctor.phone }}">
                         </div>
 
                         <div class="mb-3">

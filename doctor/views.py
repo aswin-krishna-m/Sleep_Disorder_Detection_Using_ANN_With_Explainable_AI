@@ -3,7 +3,7 @@ from users.models import Doctor,Patient
 from doctor.models import Consulting,Appointment,Prescription,Diagnosis,Prediction
 from users.decorators import doctor_login_required
 from django.contrib import messages
-from .ml_model.predict import predict_with_explanation
+from .ml_model.predict import predict_sleep_disorder
 import math
 
 @doctor_login_required()
@@ -144,18 +144,17 @@ def diagnose(request,id):
             "Physical Activity Level": int(request.POST.get("physical_activity")),
             "Stress Level": int(request.POST.get("stress_level")),
             "BMI Category": request.POST.get("bmi_category"),
-            "Heart Rate": int(request.POST.get("heart_rate")),
-            "Daily Steps": int(request.POST.get("daily_steps")),
             "Systolic": int(request.POST.get("systolic")),
             "Diastolic": int(request.POST.get("diastolic")),
+            "Heart Rate": int(request.POST.get("heart_rate")),
+            "Daily Steps": int(request.POST.get("daily_steps")),
         }       
-        prediction = predict_with_explanation(input_data)
+        prediction = predict_sleep_disorder(input_data)
         if isinstance(prediction["PredictedDisorder"], float) and math.isnan(prediction["PredictedDisorder"]):
             prediction["PredictedDisorder"] = "Normal"
-        print(type(prediction["PredictedDisorder"]))
-        Prediction.objects.create(doctor=doctor,patient=patient,predicted_disease=prediction['PredictedDisorder']) 
-        # prediction = True    
-        return render(request, 'doctor/diagnose.html',{'pid':patient.id,'prediction':prediction})
+        Prediction.objects.create(doctor=doctor,patient=patient,predicted_disease=prediction['PredictedDisorder'])   
+
+        return render(request, 'doctor/diagnose.html',{'pid':patient.id,'prediction':prediction,})
     return render(request, 'doctor/diagnose.html')
 
 @doctor_login_required()
@@ -165,7 +164,7 @@ def saveDiagnosis(request,id):
     if request.method == "POST":
         consulting = Consulting.objects.get(patient=patient,doctor=doctor)
         sleep_disorder = request.POST.get("prediction")
-        confidence_score = 0#float(request.POST.get("confidence_score"))
+        confidence_score = float(request.POST.get("confidence_score"))
         notes = request.POST.get("notes")
         # Save diagnosis
         diagnosis = Diagnosis.objects.create(

@@ -1,87 +1,69 @@
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU for SHAP KernelExplainer
+
 import shap
-import joblib
 import numpy as np
 import pandas as pd
-import tensorflow as tf
-from model import SleepDisorderANN
-from preprocessing import preprocess_data
+import joblib
+import matplotlib.pyplot as plt
+from doctor.ml_model.model import SleepDisorderANN
+from doctor.ml_model.preprocessing import preprocess_data
+from doctor.ml_model.paths import model_path, scaler_path, label_encoder_path,data_path
 
-# Paths to model and preprocessing components
-model_path = "best_sleep_disorder_model.keras"
-scaler_path = "scaler.pkl"
-label_encoder_path = "label_encoders.pkl"
-
-# Load trained components
 scaler = joblib.load(scaler_path)
 label_encoders = joblib.load(label_encoder_path)
 
-# Load trained TensorFlow model
-input_size = len(scaler.mean_)
-output_size = len(label_encoders["Sleep Disorder"].classes_)
-model = SleepDisorderANN(input_size, output_size)
-model.load_weights(model_path)
+def explain_model(data_df):
+    X_sample, _, _, _ = preprocess_data(data_df, scaler, label_encoders)
 
-# Initialize SHAP Explainer with a sample background dataset
-background_data = np.zeros((1, input_size))  # Using a dummy input for SHAP initialization
-explainer = shap.Explainer(model, background_data)
+    df_full = pd.read_csv(data_path)
+    X_background, _, _, _ = preprocess_data(df_full, scaler, label_encoders)
 
-def explain_prediction(data_dict):
-    """
-    Generates a prediction along with SHAP-based feature importance scores.
-    
-    Args:
-        data_dict (dict): A dictionary containing patient data for prediction.
-    
-    Returns:
-        dict: Prediction result including disorder classification, confidence, and feature importance.
-    """
-    df = pd.DataFrame([data_dict])  # Convert input dictionary to DataFrame
-    X, _, _, _ = preprocess_data(df, scaler, label_encoders)  # Preprocess input
-    X_numpy = np.array(X)  # Convert to NumPy array
+    feature_names = list(X_sample.columns) if isinstance(X_sample, pd.DataFrame) else [f'feature_{i}' for i in range(X_sample.shape[1])]
 
-    # Get model prediction
-    probabilities = model.predict(X_numpy)
-    prediction_idx = np.argmax(probabilities, axis=1)[0]
-    confidence = probabilities[0][prediction_idx]
-    predicted_label = label_encoders["Sleep Disorder"].inverse_transform([prediction_idx])[0]
+    input_size = X_sample.shape[1]
+    output_size = len(label_encoders["Sleep Disorder"].classes_)
+    model = SleepDisorderANN(input_size, output_size)
+    model.load_weights(model_path)
 
-    # Compute SHAP values
-    shap_values = explainer(X_numpy)
-    shap_values_array = shap_values.values  # Extract SHAP values as an array
+    explainer = shap.KernelExplainer(model.predict, X_background[:100])
 
-    # Map feature importance scores to feature names
+    shap_values = explainer(X_sample)
     feature_names = [
-        "Age", "Gender", "Occupation", "Sleep Duration", "Quality of Sleep",
+        "Gender", "Age", "Occupation", "Sleep Duration", "Quality of Sleep",
         "Physical Activity Level", "Stress Level", "BMI Category",
         "Systolic", "Diastolic", "Heart Rate", "Daily Steps"
     ]
-    feature_importance = {feature: shap_values_array[0, i].sum() for i, feature in enumerate(feature_names)}
+    X_sample_df = pd.DataFrame(X_sample, columns=feature_names)
+    # print(X_sample_df.shape)
+    # print(np.array(shap_values).shape)
+    # print(f"Features in X_sample: {X_sample_df.columns}")
+    # print("SHAP values shape:", [np.array(s).shape for s in shap_values])
+    pred = model.predict(X_sample)
+    predicted_class = np.argmax(pred, axis=1)[0]
 
-    # Convert SHAP values to scientific notation for better readability
-    feature_importance = {key: "{:.1e}".format(value) for key, value in feature_importance.items()}
-
-    return {
-        "PredictedDisorder": predicted_label,
-        "Confidence": f"{confidence * 100:.2f}%",
-        "FeatureImportance": feature_importance
-    }
-
-if __name__ == "__main__":
-    # Sample input for testing
-    sample_input = {
-        "Gender": "Male",
-        "Age": 28,
-        "Occupation": "Sales Representative",
-        "Sleep Duration": 5.9,
-        "Quality of Sleep": 4,
-        "Physical Activity Level": 30,
-        "Stress Level": 8,
-        "BMI Category": "Obese",
-        "Heart Rate": 85,
-        "Daily Steps": 3000,
-        "Systolic": 140,
-        "Diastolic": 90
-    }
+    class_names = list(label_encoders["Sleep Disorder"].classes_)
+    class_names = ["Normal" if pd.isna(c) else c for c in class_names]
+    predicted_label = label_encoders["Sleep Disorder"].inverse_transform([predicted_class])[0]
+    # print("Predicted Sleep Disorder Class:", predicted_label)
+    # shap_values_for_class = shap_values[predicted_class][0]  # (12,)
+    # shap.plots.waterfall(shap_values, max_display=14)
+    shap.summary_plot(shap_values, features=X_sample_df, feature_names=X_sample_df.columns,class_names=class_names)
+    plt.savefig("static/graph.png", format="png")
     
-    result = explain_prediction(sample_input)
-    print(result)
+
+# Sample input
+# input_data = {
+#     "Gender": "Male",
+#     "Age": 27,
+#     "Occupation": "Software Engineer",
+#     "Sleep Duration": 6.5,
+#     "Quality of Sleep": 4,
+#     "Physical Activity Level": 32,
+#     "Stress Level": 6,
+#     "BMI Category": "Overweight",
+#     "Systolic": 126,
+#     "Diastolic": 83,
+#     "Heart Rate": 77,
+#     "Daily Steps": 2200
+# }

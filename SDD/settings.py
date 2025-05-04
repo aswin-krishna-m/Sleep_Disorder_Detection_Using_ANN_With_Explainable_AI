@@ -6,7 +6,7 @@ SECRET_KEY = 'django-insecure-mqxae_*4s72#hq!g00lchs!vfc)c0%rvxbiu2_&-eiu%u@upai
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['8000-aswin-krishna-m-sleep-di-kvnenaom03.app.codeanywhere.com','127.0.0.1',]
 
 
 
@@ -109,6 +109,9 @@ MESSAGE_TAGS = {
         messages.ERROR: 'alert-danger',
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-aswin-krishna-m-sleep-di-kvnenaom03.app.codeanywhere.com',
+]
 
 from functools import wraps
 from django.shortcuts import redirect

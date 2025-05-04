@@ -54,7 +54,7 @@
                           </div>
                           <div class="col-lg-12">
                               <div class="form-group">
-                                  <input name="phone" id="phone" type="Number" class="form-control" placeholder="Phone Number" required>
+                                  <input name="phone" maxlength="10" minlength="10" id="phone" type="text" class="form-control" placeholder="Phone Number" required>
                               </div>
                           </div>
                       </div>
@@ -70,5 +70,14 @@
       </div>
     </div>
   </section>
-  
+  <script>
+    // Set min date to current date
+    document.getElementById("date").min = new Date().toISOString().split("T")[0];
+
+    // Set min time to current time
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    document.getElementById("time").min = hours + ":" + minutes;
+</script>
 {% endblock body %}

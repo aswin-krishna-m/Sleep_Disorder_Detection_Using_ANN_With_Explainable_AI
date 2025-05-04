@@ -1,6 +1,26 @@
 from django.db import models
 from users.models import Doctor,Patient
 from siteAdmin.logger import create_log
+from users.models import Doctor
+
+class DoctorQualification(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='qualifications')
+    degree = models.CharField(max_length=150)
+    institution = models.CharField(max_length=255)
+    year_of_completion = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.degree} ({self.doctor.fname})"
+
+class DoctorExperience(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='experiences')
+    hospital = models.CharField(max_length=255)
+    position = models.CharField(max_length=150)
+    start_year = models.PositiveIntegerField()
+    end_year = models.PositiveIntegerField(null=True, blank=True)  # null if still working
+
+    def __str__(self):
+        return f"{self.position} at {self.hospital} ({self.doctor.fname})"
 
 class Consulting(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)

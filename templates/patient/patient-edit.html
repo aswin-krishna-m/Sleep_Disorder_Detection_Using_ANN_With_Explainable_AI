@@ -1,7 +1,7 @@
 {% extends "../base.html" %}
 {% load static %}
 {% block title %}
-  Edit <Main></Main> Info
+  Edit Info
 {% endblock title %}
 {% block body %}
 {% include "patient/nav.html" %}
@@ -53,7 +53,7 @@
     
                     <div class="mb-3">
                         <label>Phone</label>
-                        <input type="text" name="phone" class="form-control" value="{{ patient.phone }}">
+                        <input type="text" name="phone" maxlength="10" class="form-control" pattern="\d*" inputmode="numeric" value="{{ patient.phone }}">
                     </div>
                 </div>
     
@@ -61,7 +61,7 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label>Date of Birth</label>
-                        <input type="date" name="dob" class="form-control" value="{{ patient.dob|date:'Y-m-d' }}" required>
+                        <input type="date" name="dob" id="dob" class="form-control" value="{{ patient.dob|date:'Y-m-d' }}" required>
                     </div>
     
                     <div class="mb-3">
@@ -86,6 +86,9 @@
     </div>
     
 </section>
-
+<script>
+    // Set max date to current date
+    document.getElementById("dob").max = new Date().toISOString().split("T")[0];
+</script>
   
 {% endblock body %}

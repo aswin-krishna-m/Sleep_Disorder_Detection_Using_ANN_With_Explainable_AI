@@ -49,7 +49,7 @@
                                 <input type="email" class="form-control" placeholder="Email Address" name="email" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Phone Number" name="phone" required>
+                                <input type="text" class="form-control" placeholder="Phone Number" maxlength="10"  name="phone" required pattern="\d*" inputmode="numeric">
                             </div>
                             <div class="form-group">
                                 <select name="gender" class="form-control" id="gender" required>
@@ -59,12 +59,12 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input type="date" class="form-control" placeholder="DOB" name="dob" required>
+                                <input type="date" class="form-control" placeholder="DOB" name="dob" required max="" id="dob">
                             </div>
+                              
                             <div class="form-group">
                                 <input type="password" class="form-control" placeholder="Password" name="password" required>
                             </div>
-                            
                             <button type="submit" class="btn btn-main-2 btn-round-full">Add</button>
                         </form>
                 </div>
@@ -72,4 +72,8 @@
           </div>
       </div>
   </section>
+  <script>
+    // Set max date to current date
+    document.getElementById("dob").max = new Date().toISOString().split("T")[0];
+</script>
 {% endblock body %}

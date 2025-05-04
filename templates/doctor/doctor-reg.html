@@ -50,10 +50,10 @@
                                 <input type="email" class="form-control" placeholder="Your Email Address" name="email" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Phone Number" name="phone" required>
+                                <input type="text" class="form-control" maxlength="10" placeholder="Phone Number" name="phone" required pattern="\d*" inputmode="numeric">
                             </div>
                             <div class="form-group">
-                                <textarea type="text" class="form-control" placeholder="Bio" name="bio" required></textarea>
+                                <textarea type="text" class="form-control" maxlength="250" placeholder="Bio" name="bio" required></textarea>
                             </div>
                             <div class="form-group">
                                 <select name="gender" class="form-control" id="gender" required>
